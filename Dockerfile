@@ -6,6 +6,7 @@ FROM centos:centos7
 RUN useradd -M -s /sbin/nologin nginx
 
 # 安装相关依赖
+RUN rpm -uvh hhttp://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el6.ngx.noarch.rpm
 RUN  yum -y install nginx \
     && echo "hello aoppp.com" > /usr/local/nginx/html/index.html
 
@@ -13,4 +14,4 @@ RUN  yum -y install nginx \
 EXPOSE 80
 
 # 启动nginx 将nginx主进程 pid为1 nginx一旦挂掉那么docker容器就会直接退出
-CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+CMD ["nginx"]
