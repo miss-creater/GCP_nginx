@@ -14,4 +14,4 @@ RUN  yum -y install nginx \
 EXPOSE 80
 
 # 启动nginx 将nginx主进程 pid为1 nginx一旦挂掉那么docker容器就会直接退出
-CMD ["nginx"]
+CMD ["nginx", "-g", "daemon off;"]
