@@ -8,7 +8,7 @@ RUN useradd -M -s /sbin/nologin nginx
 # 安装相关依赖
 RUN rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 RUN  yum -y install nginx \
-    && echo "hello aoppp.com" > /usr/local/nginx/html/index.html
+    && echo "hello aoppp.com" > /usr/share/nginx/html/index.html
 
 # 表示对外期望暴露得端口
 EXPOSE 80
