@@ -1,21 +1,24 @@
-FROM ansible/centos7-ansible
-LABEL maintainer jonh wick
-RUN yum install -y gcc gcc-c++ make \     #将依赖包和调试工具全部安装上，清理其环境。清理yum的缓存
-    pcre-devel gd-devel \
-    iproute net-tools telnet wget curl && \
-    yum clean all && \
-    rm -rf /var/cache/yum/*
+FROM centos:centos7
 
-ADD nginx-1.16.1.tar.gz /usr/src  ##文件放在当前目录下,拷过去会自动解压
+# 从centos基础镜像构建
 
-RUN cd /usr/src/nginx-1.16.1 && \
-    ./configure --prefix=/usr/local/nginx \
-    make && make install && \ 
-    mkdir -p /usr/local/nginx/conf/vhost && \  # COPY nginx.conf/usr/local/nginx/conf/nginx.conf 如果你这里有自己的配置文件可以加上这句
-    rm -rf /usr/src/nginx-1.16.1 && \
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime #软连接一个上海时区到当前时区
+# 设置工作目录
+WORKDIR "/tmp"
 
-ENV PATH /usr/local/nginx/sbin:$PATH  #设置环境变量
-WORKDIR /usr/local/nginx
+# 这里远程下载太慢了 我直接本地弄得。大家可以使用wget来进行远程下载
+ADD nginx-1.17.5.tar.gz /tmp
+
+# 添加nginx用户
+RUN useradd -M -s /sbin/nologin nginx
+
+# 安装相关依赖
+RUN  yum -y install gcc*  make pcre-devel zlib-devel openssl openssl-devel libxslt-devel gd gd-devel GeoIP GeoIP-devel pcre pcre-devel \
+    && cd nginx-1.17.5 \
+    && ./configure --user=nginx --group=nginx --prefix=/usr/local/nginx --with-file-aio --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_xslt_module --with-http_image_filter_module --with-http_geoip_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_auth_request_module --with-http_random_index_module --with-http_secure_link_module --with-http_degradation_module --with-http_stub_status_module && make && make install \
+    && echo "hello aoppp.com" > /usr/local/nginx/html/index.html
+
+# 表示对外期望暴露得端口
 EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
+
+# 启动nginx 将nginx主进程 pid为1 nginx一旦挂掉那么docker容器就会直接退出
+CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
