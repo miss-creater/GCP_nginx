@@ -12,7 +12,7 @@ RUN  yum -y install nginx \
 ADD gcsfuse.repo /etc/yum.repos.d/
 RUN yum install gcsfuse -y 
 RUN mkdir /data 
-RUN gcsfuse test-nginx /data
+RUN nohup gcsfuse test-nginx /data &
 
 EXPOSE 80
 
