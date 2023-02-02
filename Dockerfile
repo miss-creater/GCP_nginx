@@ -13,6 +13,8 @@ ADD gcsfuse.repo /etc/yum.repos.d/
 RUN yum install gcsfuse -y 
 RUN mkdir /data 
 RUN nohup gcsfuse test-nginx /data &
+RUN rm -rf /usr/share/nginx/html/index.html
+RUN copy /data/test.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
 
