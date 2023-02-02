@@ -9,6 +9,7 @@ RUN useradd -M -s /sbin/nologin nginx
 RUN rpm -Uvh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 RUN  yum -y install nginx \
     && echo "hello aoppp.com" > /usr/share/nginx/html/index.html
+ADD gcsfuse.repo /etc/yum.repos.d/
 RUN yum install gcsfuse -y 
 RUN mkdir /data 
 RUN gcsfuse test-nginx /data
