@@ -19,7 +19,7 @@ RUN  yum -y install nginx \
             gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
             https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
        EOF
- RUN  sudo yum install gcsfuse -y && mkdir /data && gcsfuse test-nginx /data
+RUN  sudo yum install gcsfuse -y && mkdir /data && gcsfuse test-nginx /data
 EOFEXPOSE 80
 
 # 启动nginx 将nginx主进程 pid为1 nginx一旦挂掉那么docker容器就会直接退出
