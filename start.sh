@@ -1,5 +1,6 @@
 #!/bin/bash
-set -ex 
+set -ex
+nginx
 rm -rf /usr/share/nginx/html/index.html
 nohup gcsfuse test-nginx /data &
 touch /data/111.txt
