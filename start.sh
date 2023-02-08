@@ -2,6 +2,7 @@
 set -ex
 
 nginx
+mkdir /data
 rm -rf /usr/share/nginx/html/index.html
 gcsfuse test-nginx /data && touch /data/111.txt
 cp -p /data/test.html /usr/share/nginx/html/index.html
