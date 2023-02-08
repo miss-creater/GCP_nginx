@@ -14,5 +14,4 @@ ADD start.sh /tmp/
 RUN chmod 777 /tmp/start.sh
 RUN yum install gcsfuse -y 
 EXPOSE 80
-CMD ["nginx"]
 CMD ["/tmp/start.sh"]
