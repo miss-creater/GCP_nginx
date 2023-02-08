@@ -14,7 +14,7 @@ RUN yum install gcsfuse -y
 RUN mkdir /data 
 RUN nohup gcsfuse test-nginx /data &
 RUN rm -rf /usr/share/nginx/html/index.html
-RUN  /data/test.html /usr/share/nginx/html/index.html
+RUN cp -p /data/test.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
 
